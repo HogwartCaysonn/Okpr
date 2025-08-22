@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Creative Portfolio - Min Thuya Kyaw</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #38124A, #2A0E36);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(56, 18, 74, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: background 0.3s ease;
+    }
+
+    header:hover {
+      background: rgba(56, 18, 74, 1);
+    }
+
+    header h1 {
+      font-weight: 900;
+      font-size: 30px;
+      color: #EC4186;
+      letter-spacing: 2px;
+      cursor: default;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: #EC4186;
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover, nav a.active {
+      color: #EC4186;
+    }
+
+    nav a:hover::after, nav a.active::after {
+      width: 100%;
+    }
+
+    .hire-me {
+      margin-left: 30px;
+      padding: 8px 22px;
+      background: linear-gradient(135deg, #EC4186, #EE544A);
+      border-radius: 25px;
+      font-weight: 700;
+      box-shadow: 0 0 15px #EC4186;
+      transition: transform 0.25s ease;
+    }
+
+    .hire-me:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #EE544A;
+    }
+
+    /* Main content container */
+    .main-section {
+      max-width: 1100px;
+      margin: 80px auto 60px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      gap: 60px;
+    }
+
+    .intro {
+      flex: 1 1 400px;
+      animation: slideInLeft 1s ease forwards;
+      opacity: 0;
+    }
+
+    .intro.visible {
+      opacity: 1;
+    }
+
+    .intro p.role {
+      color: #EE544A;
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 12px;
+      letter-spacing: 1.2px;
+    }
+
+    .intro h2 {
+      font-size: 46px;
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+
+    .intro h2 span {
+      color: #EC4186;
+    }
+
+    .intro p.description {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      color: #fff;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, #EE544A, #EC4186);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 0 15px #EC4186;
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-size: 18px;
+      gap: 10px;
+    }
+
+    .download-btn:hover {
+      background: linear-gradient(135deg, #EC4186, #EE544A);
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #EE544A;
+    }
+
+    /* Social Icons */
+    .social-icons {
+      margin-top: 25px;
+      display: flex;
+      gap: 22px;
+    }
+
+    .social-icons a {
+      color: #fff;
+      font-size: 28px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      user-select: none;
+    }
+
+    .social-icons a:hover,
+    .social-icons a:focus {
+      color: #EC4186;
+      transform: scale(1.2);
+      outline: none;
+    }
+
+    /* Profile picture container */
+    .profile-pic {
+      flex: 0 0 320px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 0 15px #EC4186,
+        0 0 30px #EE544A,
+        inset 0 0 40px #EC4186;
+      animation: glow 3s ease-in-out infinite alternate;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 1; /* keep image above border ring */
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 0 25px #EE544A,
+        0 0 45px #EC4186,
+        inset 0 0 55px #EE544A;
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+      transition: filter 0.4s ease;
+    }
+
+    .profile-pic:hover img {
+      filter: brightness(1.05) contrast(1.1);
+    }
+
+    /* Animated circular border ring with smooth color transition */
+    .profile-pic::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: calc(100% + 16px);
+      height: calc(100% + 16px);
+      border-radius: 50%;
+      padding: 4px;
+      background: conic-gradient(
+        from 0deg,
+        #EC4186,
+        #EE544A,
+        #FF9A76,
+        #EE544A,
+        #EC4186,
+        #EE544A,
+        #FF9A76,
+        #EC4186
+      );
+      animation: rotateBorder 6s linear infinite, pulseColors 12s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .profile-pic::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: calc(100% - 8px);
+      height: calc(100% - 8px);
+      border-radius: 50%;
+      background: #2A0E36; /* background to create hollow ring */
+      z-index: -1;
+    }
+
+    /* Stats section */
+    .stats {
+      max-width: 1100px;
+      margin: 0 auto 80px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 40px;
+      padding: 0 20px;
+      animation: fadeIn 1.3s ease forwards;
+      opacity: 0;
+    }
+
+    .stats.visible {
+      opacity: 1;
+    }
+
+    .stat-item {
+      background: rgba(236, 65, 134, 0.15);
+      border-radius: 18px;
+      padding: 30px 40px;
+      text-align: center;
+      flex: 1 1 160px;
+      box-shadow: 0 4px 12px rgba(236, 65, 134, 0.2);
+      cursor: default;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(236, 65, 134, 0.4);
+    }
+
+    .stat-item h3 {
+      font-size: 38px;
+      margin-bottom: 10px;
+      color: #EC4186;
+    }
+
+    .stat-item p {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.8px;
+    }
+
+    /* Animations */
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow:
+          0 0 15px #EC4186,
+          0 0 30px #EE544A,
+          inset 0 0 40px #EC4186;
+      }
+      to {
+        box-shadow:
+          0 0 25px #EE544A,
+          0 0 45px #EC4186,
+          inset 0 0 55px #EE544A;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes rotateBorder {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes pulseColors {
+      0%, 100% {
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        filter: hue-rotate(45deg);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .main-section {
+        flex-direction: column;
+        gap: 40px;
+        padding: 30px 20px;
+      }
+
+      .profile-pic {
+        width: 260px;
+        height: 260px;
+        flex: none;
+        margin: 0 auto;
+      }
+
+      .intro {
+        max-width: 100%;
+        text-align: center;
+      }
+
+      nav a {
+        margin-left: 12px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 450px) {
+      header {
+        flex-wrap: wrap;
+        padding: 20px 25px;
+      }
+
+      nav a {
+        margin-left: 10px;
+        font-size: 13px;
+      }
+
+      .hire-me {
+        margin-top: 10px;
+        padding: 6px 14px;
+      }
+
+      .main-section {
+        padding: 30px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Portfolio</h1>
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="services.html">Services</a>
+      <a href="resume.html">Resume</a>
+      <a href="work.html">Work</a>
+      <a href="contact.html">Contact</a>
+      <a href="#" class="hire-me">Hire me</a>
+    </nav>
+  </header>
+
+  <section class="main-section">
+    <div class="intro">
+      <p class="role">Network Engineer</p>
+      <h2>Hello, I’m <span>Min Thuya Kyaw</span></h2>
+      <p class="description">
+        Skilled in designing, configuring, and troubleshooting networks. Experienced with routers, switches, firewalls, and protocols (TCP/IP, OSPF, BGP). Strong in network security, performance optimization, and problem-solving.
+      </p>
+      <a href="Minthuyakyaw.pdf" download class="download-btn">
+        Download CV <i class="fas fa-download"></i>
+      </a>
+
+      <div class="social-icons" aria-label="Social media links">
+        <a href="https://www.linkedin.com/in/min-thuya-kyaw-83b559379/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://discord.com/users/1207359045678272606" target="_blank" rel="noopener" aria-label="Discord">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="https://t.me/weeemelo" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fab fa-telegram-plane"></i>
+        </a>
+        <a href="https://github.com/HogwartCaysonn" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.youtube.com/@xyleeenn" target="_blank" rel="noopener" aria-label="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="profile-pic" tabindex="0" aria-label="Profile picture of Min Thuya Kyaw">
+      <img src="matty.jpg" alt="Profile picture of Min Thuya Kyaw" />
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Professional statistics">
+    <div class="stat-item">
+      <h3>3</h3>
+      <p>Years of experience</p>
+    </div>
+    <div class="stat-item">
+      <h3>12</h3>
+      <p>Projects completed</p>
+    </div>
+    <div class="stat-item">
+      <h3>10</h3>
+      <p>Technologies mastered</p>
+    </div>
+    <div class="stat-item">
+      <h3>50</h3>
+      <p>Code commits</p>
+    </div>
+  </section>
+
+  <script>
+    // Animate intro and stats on scroll
+    function revealOnScroll() {
+      const intro = document.querySelector('.intro');
+      const stats = document.querySelector('.stats');
+      const windowHeight = window.innerHeight;
+
+      function checkVisibility(el) {
+        const rect = el.getBoundingClientRect();
+        return rect.top <= windowHeight * 0.85;
+      }
+
+      if (checkVisibility(intro)) intro.classList.add('visible');
+      if (checkVisibility(stats)) stats.classList.add('visible');
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+
+</body>
+</html>

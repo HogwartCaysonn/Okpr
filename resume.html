@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Resume - Matt</title>
+<style>
+  /* Root palette */
+  :root {
+    --color-bg: #38124A;
+    --color-primary: #EC4186;
+    --color-secondary: #EE544A;
+    --color-white: #FFFFFF;
+    --color-dark-btn: #2A0E3B;
+    --color-text-muted: #BBBBBB;
+    --font-primary: 'Poppins', sans-serif;
+    --shadow: rgba(0,0,0,0.25);
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap');
+
+  /* Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #38124A 0%, #1F0B27 100%);
+    font-family: var(--font-primary);
+    color: var(--color-white);
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3.5rem;
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 0.75rem;
+  }
+
+  nav .logo {
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    text-shadow: 0 0 8px var(--color-primary);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav ul li {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  nav ul li a {
+    color: var(--color-white);
+    text-decoration: none;
+    position: relative;
+    padding: 4px 0;
+    transition: color 0.3s ease;
+  }
+
+  nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    left: 0;
+    bottom: 0;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+  }
+
+  nav ul li a:hover,
+  nav ul li a.resume-link {
+    color: var(--color-primary);
+  }
+
+  nav ul li a:hover::after,
+  nav ul li a.resume-link::after {
+    width: 100%;
+  }
+
+  nav .btn-hire {
+    background: var(--color-primary);
+    color: var(--color-bg);
+    border: none;
+    padding: 0.65rem 1.7rem;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px var(--color-primary);
+    transition: background 0.3s ease, color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  nav .btn-hire:hover {
+    background: var(--color-secondary);
+    color: var(--color-white);
+    box-shadow: 0 6px 20px var(--color-secondary);
+  }
+
+  /* Toggle Inputs - hide */
+  input[type="radio"].toggle-input {
+    display: none;
+  }
+
+  .main-content {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px var(--shadow);
+  }
+
+  .sidebar {
+    flex: 1 1 250px;
+    background: rgba(0,0,0,0.25);
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .sidebar h2 {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .sidebar h2 span {
+    color: var(--color-primary);
+  }
+
+  .sidebar p {
+    font-weight: 300;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+  }
+
+  .sidebar label {
+    display: block;
+    background-color: transparent;
+    border: 2px solid var(--color-text-muted);
+    color: var(--color-text-muted);
+    padding: 0.8rem 1.2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: all 0.35s ease;
+    user-select: none;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 0 0 transparent;
+  }
+
+  /* Hover and checked states */
+  input#experience:checked + label[for="experience"],
+  input#education:checked + label[for="education"],
+  input#about:checked + label[for="about"] {
+    background: var(--color-primary);
+    color: var(--color-bg);
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 16px var(--color-primary);
+    transform: scale(1.05);
+  }
+
+  .sidebar label:hover:not(:has(input:checked)) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    box-shadow: 0 4px 12px var(--color-primary);
+  }
+
+  .content {
+    flex: 3 1 600px;
+  }
+
+  .content section.content-panel {
+    display: none;
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  #experience:checked ~ .main-content .content #experience-content,
+  #education:checked ~ .main-content .content #education-content,
+  #about:checked ~ .main-content .content #about-content {
+    display: block;
+  }
+
+  .content h2 {
+    font-weight: 800;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-primary);
+    text-shadow: 0 0 8px var(--color-primary);
+  }
+
+  .content p.description {
+    font-weight: 300;
+    color: var(--color-text-muted);
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  /* Cards container updated to 2 columns for 2x2 layout */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 2rem 2.5rem;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 1.5rem 1.2rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px var(--color-primary);
+  }
+
+  .card .date {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .card .title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+    color: var(--color-white);
+  }
+
+  .card .company {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .card .company span {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  /* Description text under each card */
+  .card .description-text {
+    margin-top: 0.6rem;
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.3;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .main-content {
+      flex-direction: column;
+    }
+    .sidebar {
+      flex: unset;
+      margin-bottom: 2rem;
+    }
+    .cards {
+      grid-template-columns: 1fr;
+      gap: 1.8rem 1.5rem;
+    }
+  }
+
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+
+    <nav>
+      <div class="logo">Matt<span>.</span></div>
+      <ul>
+        <li><a href="portfolio.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="#" class="resume-link">Resume</a></li>
+        <li><a href="work.html">Work</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="btn-hire">Hire me</button>
+    </nav>
+
+    <!-- Radio buttons for toggle -->
+    <input type="radio" name="section" id="experience" class="toggle-input" checked>
+    <input type="radio" name="section" id="education" class="toggle-input">
+    <input type="radio" name="section" id="about" class="toggle-input">
+
+    <div class="main-content">
+
+      <aside class="sidebar">
+        <h2>Why <span>hire</span> me?</h2>
+        <p>I bring strong technical skills in network design and troubleshooting, combined with a proactive approach to ensuring secure and reliable connectivity. My hands-on experience with industry-standard tools and protocols enables me to quickly resolve issues and optimize network performance, making me a valuable asset to your team.</p>
+
+        <label for="experience">Experience</label>
+        <label for="education">Education</label>
+        <label for="about">About me</label>
+      </aside>
+
+      <section class="content">
+
+        <!-- Experience Content -->
+        <section id="experience-content" class="content-panel">
+          <h2>My experience</h2>
+          <p class="description">Experienced Network Engineer skilled in designing, implementing, and managing network infrastructure. Proficient in configuring routers, switches, firewalls, and VPNs to ensure secure and efficient data flow. Strong troubleshooting abilities in resolving connectivity issues and optimizing network performance. Familiar with network protocols (TCP/IP, BGP, OSPF) and monitoring tools to maintain system reliability.</p>
+
+          <div class="cards">
+            <div class="card">
+              <div class="date">2022</div>
+              <div class="title">Leadership for Group Project</div>
+              <div class="company"><span>Executive Garden Institute</span></div>
+              <p class="description-text">Led a team of 5 to successfully complete a network design project ahead of schedule.</p>
+            </div>
+
+            <div class="card">
+              <div class="date">2023</div>
+              <div class="title">Cybersecurity Group Project</div>
+              <div class="company"><span>PSB Academy</span></div>
+              <p class="description-text">Implemented security protocols to protect systems from common cyber threats.</p>
+            </div>
+
+            <div class="card">
+              <div class="date">2024</div>
+              <div class="title">Website Competition</div>
+              <div class="company"><span>Info Myanmar College</span></div>
+              <p class="description-text">Designed and developed an award-winning responsive website using modern frameworks.</p>
+            </div>
+
+            <div class="card">
+              <div class="date">2025</div>
+              <div class="title">Programming, Database, Computer System Architecture</div>
+              <div class="company"><span>Info Myanmar College</span></div>
+              <p class="description-text">Completed advanced coursework integrating database management and system design.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Education Content -->
+        <section id="education-content" class="content-panel">
+          <h2>My education</h2>
+          <p class="description">Here is my educational background and achievements.</p>
+          <div class="cards">
+            <div class="card">
+              <div class="date">2022 - 2023</div>
+              <div class="title">International General Certificate Secondary Education (O-level)</div>
+              <div class="company"><span>Kings International School</span></div>
+              <p class="description-text">Completed O-levels with focus on science and mathematics.</p>
+            </div>
+
+            <div class="card">
+              <div class="date">2023 - 2024</div>
+              <div class="title">Certificate in Information and Communication Systems</div>
+              <div class="company"><span>PSB Academy</span></div>
+              <p class="description-text">Studied fundamentals of networking, communications, and system administration.</p>
+            </div>
+
+            <div class="card">
+              <div class="date">2024</div>
+              <div class="title">Secure Computer User</div>
+              <div class="company"><span>EC-Council</span></div>
+              <p class="description-text">Gained certification in secure computing practices and threat prevention.</p>
+            </div>
+
+            <div class="card">
+              <div class="date">2024 - 2026</div>
+              <div class="title">Diploma in Computing (Networking)</div>
+              <div class="company"><span>Info Myanmar College</span></div>
+              <p class="description-text">Advanced diploma covering networking, security, and system architecture.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- About Me Content -->
+        <section id="about-content" class="content-panel">
+          <h2>About Me</h2>
+          <p class="description">
+            I have strong communication skills and can interact confidently with people from various countries, including Bangladesh, Singapore, Australia, Malaysia, and Germany.<br><br>
+            I completed an individual project focused on phishing attacks, which gave me practical knowledge of cybersecurity threats and prevention.<br><br>
+            Additionally, I have worked on several technical projects involving website development, programming, database management, and computer system architecture, allowing me to develop hands-on experience and solid technical skills.
+          </p>
+        </section>
+
+      </section>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
